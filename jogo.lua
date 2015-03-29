@@ -2,10 +2,14 @@
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 
--- Adiciona música em loop
+-- Adiciona músicas
 bgSound = audio.loadStream( "jogo.mp3" )
 
-mySong = audio.play( bgSound, { channel = 1, loops = -1 } )
+coinSound = audio.loadStream( "coin.mp3" )
+
+gameoverSong = audio.loadStream( "game over.mp3" )
+
+mainSong = audio.play( bgSound, { channel = 1, loops = -1 } )
 
 --Adiciona física e gravidade
 local physics = require("physics")
@@ -37,20 +41,23 @@ monkey.y = 185
 physics.addBody( monkey, "static", { radius = 0, friction= 0.5, bounce= 0 }, physicsData:get("monkey") )
 
 local left = display.newImage( "images/left_button.png" )
-left.x = 160
+left.x = 190
 left.y = 265
 
 local right = display.newImage( "images/right_button.png" )
-right.x = 270
+right.x = 240
 right.y = 265
 
+--Adiciona score texto e número
 local score = 0
 
 local scoreNumber = display.newText(score, 400, 264, nil, 22)
+scoreNumber:setTextColor( 0, 0, 1 )
 scoreNumber.xScale = 1.2
 scoreNumber.yScale = 1.2
 
 local scoreText = display.newText("score:", 320, 265, nil, 22)
+scoreText:setTextColor( 0, 0, 1 )
 scoreText.xScale = 1.2
 
 -- Cria uma função para gerar varios objetos
@@ -58,28 +65,27 @@ local function spawnBananas_g()
     local banana_g = display.newImage( "images/banana_g.png" )
     banana_g.x = math.random( 500 )
     physics.addBody( banana_g, { density = 2.0, friction = 0.5, bounce = 0.1} )
-
+    
+--Função para remover objeto quando colidir
     local function banana_gRemove()
     display.remove( banana_g )
     banana_g=nil
     end
--- Função para colisão
+-- Função para colisão e remoção do objeto 
     local function onLocalCollision( self, event )
        if ( event.phase == "began" ) then
-          timer.performWithDelay(100, banana_gRemove)  
+          timer.performWithDelay(1, banana_gRemove)  
        end
+--Se colidir com o objeto incrementa score 
        if event.other == monkey then
             
-            local function updateScore()
-            score = score + 1 
-            scoreNumber.text = score
-            end
+            local score = display.newText('+1', event.other.x, event.other.y, 'Courier New Bold', 14)
+            score:setTextColor( 0, 0, 1 )
+            transition.to(score, {time = 500, xScale = 1.5, yScale = 1.5, y = score.y - 20, onComplete = function() display.remove(score) score = nil end })
 
-            timer.performWithDelay( 1, updateScore ) 
+            scoreNumber.text = tostring(tonumber(scoreNumber.text) + 1)
 
-            coinSound = audio.loadStream( "coin.mp3" )
-
-            mySong = audio.play( coinSound, { channel = 2, loops = 0 } )
+            scoreSong = audio.play( coinSound, { channel = 2, loops = 0 } )
 
         end
     end
@@ -94,15 +100,29 @@ local function spawnBananas_b()
     local banana_b = display.newImage( "images/banana_b.png" )
     banana_b.x = math.random( 1200 )
     physics.addBody( banana_b, { density = 2.0, friction = 0.5, bounce = 0.1} )
-
+   
+--Função para remover objeto quando colidir    
     local function banana_bRemove()
     display.remove( banana_b )
     banana_b=nil
     end
--- Função para colisão
+-- Função para colisão e remoção do objeto
     local function onLocalCollision( self, event )
        if ( event.phase == "began" ) then
-          timer.performWithDelay(100, banana_bRemove)  
+          timer.performWithDelay(1, banana_bRemove)  
+       end
+--Se colidir com o objeto aciona game over
+       if event.other == monkey then
+
+         left:removeEventListener( 'touch', movemonkey )
+         right:removeEventListener( 'touch', movemonkey )
+         Runtime:removeEventListener( 'enterFrame', movemonkey )
+         physics.pause( )
+         audio.stop( 1 )
+         local gameover = display.newText( "GAME OVER", 120, 130, native.systemFontBold, 40)
+         gameover:setTextColor( 0, 0, 0 )
+         gameoverSound = audio.play( gameoverSong, { channel = 1, loops = 0 } )
+
        end
     end
     banana_b.collision = onLocalCollision
