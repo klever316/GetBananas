@@ -2,6 +2,9 @@
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 
+local w = display.contentWidth 
+local h = display.contentHeight 
+
 -- Adiciona músicas
 bgSound = audio.loadStream( "jogo.mp3" )
 
@@ -26,7 +29,21 @@ motionx = 0;
 speed = 6;
 
 --Cria física ajustada ao personagem via physics editor
-local physicsData = (require "monkey_physics").physicsData(1.0)
+--local physicsData = (require "monkey_physics").physicsData(1.0)
+local physicsData = (require "mkp").physicsData(1.0)
+
+local sheetData =  { width=56, height=48, numFrames=30 }
+
+local sheet = graphics.newImageSheet("images/sprites.png", sheetData)
+
+local sequenceData = 
+{   
+    { name = "idleLeft", start = 16, count = 1, time = 0, loopCount = 1 }, 
+    { name = "idleRight", start = 1, count = 1, time = 0, loopCount = 1 }, 
+
+    { name = "moveLeft", start = 16, count = 16, time = 300, loopCount = 0 },
+    { name = "moveRight", start = 1, count = 15, time = 300, loopCount = 0 },
+}
 
 -- Adiciona background, esquerda, direita, chão, macaco com física e chama física editada no physics editor
 local background = display.newImage( "images/bg_jogo.png" )
@@ -36,17 +53,27 @@ local floor = display.newImage( "images/floor.png" )
 floor.y = 258
 physics.addBody( floor, "static", { friction=0.5, bounce=0 } )
 
-local monkey = display.newImage( "images/monkey.png" )
-monkey.y = 185
-physics.addBody( monkey, "static", { radius = 0, friction= 0.5, bounce= 0 }, physicsData:get("monkey") )
+local monkey = display.newSprite(sheet, sequenceData )
+monkey.y = 210
+physics.addBody( monkey, "static", { radius = 0, friction= 0.5, bounce= 0 }, physicsData:get("sprites") )
 
-local left = display.newImage( "images/left_button.png" )
-left.x = 190
-left.y = 265
+monkey:setSequence("idleRight")
 
-local right = display.newImage( "images/right_button.png" )
-right.x = 240
-right.y = 265
+local buttons = {}
+
+buttons[1] = display.newImage("images/left_button.png")
+buttons[1].x = 190
+buttons[1].y = 259
+buttons[1].myName = "left"
+--buttons[1].rotation = 180
+
+buttons[2] = display.newImage("images/right_button.png")
+buttons[2].x = 240
+buttons[2].y = 259
+buttons[2].myName = "right"
+
+local yAxis = 0
+local xAxis = 0
 
 --Adiciona score texto e número
 local score = 0
@@ -114,9 +141,7 @@ local function spawnBananas_b()
 --Se colidir com o objeto aciona game over
        if event.other == monkey then
 
-         left:removeEventListener( 'touch', movemonkey )
-         right:removeEventListener( 'touch', movemonkey )
-         Runtime:removeEventListener( 'enterFrame', movemonkey )
+         
          physics.pause( )
          audio.stop( 1 )
          local gameover = display.newText( "GAME OVER", 120, 130, native.systemFontBold, 40)
@@ -147,27 +172,61 @@ end
 
 main()  
 
--- Adiciona movimento do personagem de parada e de ir para a direita e esqueda
-local function stop (event)
-    if event.phase =="ended" then
-        motionx = 0;
-    end     
-end
-Runtime:addEventListener("touch", stop )
+local touchFunction = function(e)
+    local eventName = e.phase
+    local direction = e.target.myName
+    
+    if eventName == "began" or eventName == "moved" then
+        
+        if direction == "right" then
+            monkey:setSequence("moveRight")
 
-local function movemonkey (event)
-    monkey.x = monkey.x + motionx;
-end
-Runtime:addEventListener("enterFrame", movemonkey)
- 
-function left:touch()
-    motionx = -speed;
-end
-left:addEventListener("touch",left)
+            xAxis = 5
+            yAxis = 0
+        elseif direction == "left" then
+            monkey:setSequence("moveLeft")
 
-function right:touch()
-    motionx = speed;
+            xAxis = -5
+            yAxis = 0
+        end
+        
+        monkey:play() --executa a animação, é necessário usar essa função para ativar a animação
+    else 
+        
+        if e.target.myName == "right" then
+            monkey:setSequence("idleRight")
+        elseif e.target.myName == "left" then
+            monkey:setSequence("idleLeft")
+        end
+        
+        yAxis = 0
+        xAxis = 0
+    end
 end
-right:addEventListener("touch",right)
+
+local j=1
+
+for j=1, #buttons do 
+    buttons[j]:addEventListener("touch", touchFunction)
+end
+
+local update = function()
+    monkey.x = monkey.x + xAxis
+    monkey.y = monkey.y + yAxis
+
+    if monkey.x <= monkey.width * .10 then 
+        monkey.x = monkey.width * .10
+    elseif monkey.x >= w - monkey.width * .9 then 
+        monkey.x = w - monkey.width * .9
+    end
+
+    if monkey.y <= monkey.height * .5 then
+        monkey.y = monkey.height * .5
+    elseif monkey.y >= h - monkey.height * .5 then 
+        monkey.y = h - monkey.height * .5
+    end 
+end
+
+Runtime:addEventListener("enterFrame", update)
 
 return scene

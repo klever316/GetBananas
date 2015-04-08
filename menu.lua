@@ -17,8 +17,8 @@ function scene:createScene( event )
 		group:insert(background)
 	
         playbutton= display.newImage( "images/play.png" )
-        playbutton.x = display.contentWidth/3 +24
-        playbutton.y = display.contentHeight/2
+        playbutton.x = display.contentWidth/3 - 90
+        playbutton.y = display.contentHeight/2 
 		group:insert(playbutton)
 end
 
