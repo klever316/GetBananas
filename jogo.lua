@@ -5,12 +5,20 @@ local scene = storyboard.newScene()
 local w = display.contentWidth 
 local h = display.contentHeight 
 
+local playerIsInvincible = false
+
+local numberOfLives = 3
+
+local livesImages = {}
+
 -- Adiciona músicas
 bgSound = audio.loadStream( "jogo.mp3" )
 
 coinSound = audio.loadStream( "coin.mp3" )
 
 gameoverSong = audio.loadStream( "game over.mp3" )
+
+wrongSong = audio.loadStream( "wrong.mp3" )
 
 mainSong = audio.play( bgSound, { channel = 1, loops = -1 } )
 
@@ -45,6 +53,17 @@ local sequenceData =
     { name = "moveRight", start = 1, count = 15, time = 300, loopCount = 0 },
 }
 
+local lifeOptions = require ( "spriteVidas" )
+local folhaVidas = graphics.newImageSheet("images/spriteVidas.png", lifeOptions.sheetData)
+local sequenceVidas = {
+    { name = "vidas3", start = 3, count = 1, time = 0, loopCount = 1 },
+    { name = "vidas2", start = 2, count = 1, time = 0, loopCount = 1 },
+    { name = "vidas1", start = 1, count = 1, time = 0, loopCount = 1 }
+}
+
+
+local countVidas = 3
+
 -- Adiciona background, esquerda, direita, chão, macaco com física e chama física editada no physics editor
 local background = display.newImage( "images/bg_jogo.png" )
 background.y = display.contentHeight/13
@@ -56,20 +75,35 @@ physics.addBody( floor, "static", { friction=0.5, bounce=0 } )
 local monkey = display.newSprite(sheet, sequenceData )
 monkey.y = 210
 physics.addBody( monkey, "static", { radius = 0, friction= 0.5, bounce= 0 }, physicsData:get("sprites") )
+monkey.name = "macaco"
 
 monkey:setSequence("idleRight")
+
+local Vidas = display.newSprite( folhaVidas, sequenceVidas )
+
+Vidas.x = 30
+Vidas.y = 270
+Vidas:setSequence ( " vidas3 ")
+Vidas:play( )
+--[[function setupLivesImages()
+    for i = 1, 3 do
+        local tempLifeImage = display.newImage("images/life.png", 40* i - 30, 268)
+    end
+end
+Runtime:addEventListener( "enterFrame", setupLivesImages )--]]
+--local life = display.newImage("images/life.png", 100, 268)
 
 local buttons = {}
 
 buttons[1] = display.newImage("images/left_button.png")
 buttons[1].x = 190
-buttons[1].y = 259
+buttons[1].y = 265
 buttons[1].myName = "left"
 --buttons[1].rotation = 180
 
 buttons[2] = display.newImage("images/right_button.png")
 buttons[2].x = 240
-buttons[2].y = 259
+buttons[2].y = 265
 buttons[2].myName = "right"
 
 local yAxis = 0
@@ -113,7 +147,6 @@ local function spawnBananas_g()
             scoreNumber.text = tostring(tonumber(scoreNumber.text) + 1)
 
             scoreSong = audio.play( coinSound, { channel = 2, loops = 0 } )
-
         end
     end
 
@@ -141,12 +174,14 @@ local function spawnBananas_b()
 --Se colidir com o objeto aciona game over
        if event.other == monkey then
 
-         
-         physics.pause( )
-         audio.stop( 1 )
-         local gameover = display.newText( "GAME OVER", 120, 130, native.systemFontBold, 40)
-         gameover:setTextColor( 0, 0, 0 )
+         countVidas = countVidas - 1
+         Vidas:setSequence( "vidas"..countVidas )
+         if(playerIsInvincible == false) then
+                killPlayer()
+         end
+
          gameoverSound = audio.play( gameoverSong, { channel = 1, loops = 0 } )
+         badSong = audio.play( wrongSong, { channel = 2, loops = 0 } )
 
        end
     end
@@ -154,6 +189,36 @@ local function spawnBananas_b()
     banana_b:addEventListener( "collision", banana_b )
 end    
 timer.performWithDelay( 300, spawnBananas_b, 0 )
+
+function killPlayer()
+    numberOfLives = numberOfLives- 1;
+     if(numberOfLives == 0) then
+         physics.pause( )
+         audio.stop( 1 )
+         local gameover = display.newText( "GAME OVER", 120, 130, native.systemFontBold, 40)
+         gameover:setTextColor( 0, 0, 0 )
+      else
+          spawnNewPlayer()
+          playerIsInvincible = true
+
+    end
+end
+
+function spawnNewPlayer()
+    local numberOfTimesToFadePlayer = 3
+    local numberOfTimesPlayerHasFaded = 0
+    local  function fadePlayer()
+        monkey.alpha = 0;
+        transition.to( monkey, {time=400, alpha=1,  })
+        numberOfTimesPlayerHasFaded = numberOfTimesPlayerHasFaded + 1
+
+    if(numberOfTimesPlayerHasFaded == numberOfTimesToFadePlayer) then
+        playerIsInvincible = false
+    end
+  end
+     fadePlayer()
+     timer.performWithDelay(200, fadePlayer,numberOfTimesToFadePlayer)
+end
 
 -- Função para criar paredes
 function createWalls( )
