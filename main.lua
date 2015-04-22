@@ -1,9 +1,12 @@
--- Esconde a barra de status, define os pontos de âncoragem e cria aleatorias posições para os objetos
+--------------------------------------------MAIN QUE IRÁ REDIRECIONAR PARA O STORYBOARD MENU--------------------------------------------
+
+--------------------------------------------LINHA DO JOGO = MAIN -> MENU -> JOGO -> GAME OVER-------------------------------------------
+
+-- Esconde a barra de status e define as posições X e Y das telas do jogo
 display.setStatusBar(display.HiddenStatusBar)
 display.setDefault( "anchorX", 0)
 display.setDefault( "anchorY", 0)
-math.randomseed( os.time() )
 
--- Requisita o storyboard e vai para a tela do jogo
+-- Requisita o storyboard e vai para a tela do menu
 local storyboard = require "storyboard"
 storyboard.gotoScene( "menu" )

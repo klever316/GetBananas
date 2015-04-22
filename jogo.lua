@@ -9,18 +9,25 @@ local playerIsInvincible = false
 
 local numberOfLives = 3
 
-local livesImages = {}
+local countVidas = 3
+
+local yAxis = 0
+
+local xAxis = 0
+
+local score = 0
+
+scoreFinal = 0
 
 -- Adiciona músicas
 bgSound = audio.loadStream( "jogo.mp3" )
 
 coinSound = audio.loadStream( "coin.mp3" )
 
-gameoverSong = audio.loadStream( "game over.mp3" )
-
 wrongSong = audio.loadStream( "wrong.mp3" )
 
-mainSong = audio.play( bgSound, { channel = 1, loops = -1 } )
+function scene:createScene(event)
+local group = self.view;
 
 --Adiciona física e gravidade
 local physics = require("physics")
@@ -33,11 +40,8 @@ function main( )
     createWalls()
 end
 
-motionx = 0; 
-speed = 6;
-
 --Cria física ajustada ao personagem via physics editor
---local physicsData = (require "monkey_physics").physicsData(1.0)
+
 local physicsData = (require "mkp").physicsData(1.0)
 
 local sheetData =  { width=56, height=48, numFrames=30 }
@@ -61,37 +65,31 @@ local sequenceVidas = {
     { name = "vidas1", start = 1, count = 1, time = 0, loopCount = 1 }
 }
 
-
-local countVidas = 3
-
 -- Adiciona background, esquerda, direita, chão, macaco com física e chama física editada no physics editor
 local background = display.newImage( "images/bg_jogo.png" )
 background.y = display.contentHeight/13
+group:insert(background);
 
 local floor = display.newImage( "images/floor.png" )
 floor.y = 258
 physics.addBody( floor, "static", { friction=0.5, bounce=0 } )
+group:insert(floor);
 
 local monkey = display.newSprite(sheet, sequenceData )
 monkey.y = 210
 physics.addBody( monkey, "static", { radius = 0, friction= 0.5, bounce= 0 }, physicsData:get("sprites") )
 monkey.name = "macaco"
+group:insert(monkey);
 
 monkey:setSequence("idleRight")
 
 local Vidas = display.newSprite( folhaVidas, sequenceVidas )
 
 Vidas.x = 30
-Vidas.y = 270
+Vidas.y = 266
 Vidas:setSequence ( " vidas3 ")
 Vidas:play( )
---[[function setupLivesImages()
-    for i = 1, 3 do
-        local tempLifeImage = display.newImage("images/life.png", 40* i - 30, 268)
-    end
-end
-Runtime:addEventListener( "enterFrame", setupLivesImages )--]]
---local life = display.newImage("images/life.png", 100, 268)
+group:insert(Vidas);
 
 local buttons = {}
 
@@ -99,33 +97,36 @@ buttons[1] = display.newImage("images/left_button.png")
 buttons[1].x = 190
 buttons[1].y = 265
 buttons[1].myName = "left"
---buttons[1].rotation = 180
+
+group:insert(buttons[1])
 
 buttons[2] = display.newImage("images/right_button.png")
 buttons[2].x = 240
 buttons[2].y = 265
 buttons[2].myName = "right"
 
-local yAxis = 0
-local xAxis = 0
+group:insert(buttons[2])
 
 --Adiciona score texto e número
-local score = 0
-
 local scoreNumber = display.newText(score, 400, 264, nil, 22)
 scoreNumber:setTextColor( 0, 0, 1 )
 scoreNumber.xScale = 1.2
 scoreNumber.yScale = 1.2
 
+group:insert(scoreNumber);
+
 local scoreText = display.newText("score:", 320, 265, nil, 22)
 scoreText:setTextColor( 0, 0, 1 )
 scoreText.xScale = 1.2
 
+group:insert(scoreText);
+
 -- Cria uma função para gerar varios objetos
-local function spawnBananas_g()
+ function spawnBananas_g()
     local banana_g = display.newImage( "images/banana_g.png" )
     banana_g.x = math.random( 500 )
     physics.addBody( banana_g, { density = 2.0, friction = 0.5, bounce = 0.1} )
+    group:insert(banana_g);
     
 --Função para remover objeto quando colidir
     local function banana_gRemove()
@@ -140,26 +141,29 @@ local function spawnBananas_g()
 --Se colidir com o objeto incrementa score 
        if event.other == monkey then
             
-            local score = display.newText('+1', event.other.x, event.other.y, 'Courier New Bold', 14)
+            local score = display.newText('+10', event.other.x, event.other.y, 'Courier New Bold', 14)
             score:setTextColor( 0, 0, 1 )
             transition.to(score, {time = 500, xScale = 1.5, yScale = 1.5, y = score.y - 20, onComplete = function() display.remove(score) score = nil end })
 
-            scoreNumber.text = tostring(tonumber(scoreNumber.text) + 1)
+            scoreNumber.text = tostring(tonumber(scoreNumber.text) + 10)
+            scoreFinal = tonumber(scoreNumber.text);
 
             scoreSong = audio.play( coinSound, { channel = 2, loops = 0 } )
         end
     end
 
     banana_g.collision = onLocalCollision
-    banana_g:addEventListener( "collision", banana_g )
-end    
-timer.performWithDelay( 800, spawnBananas_g, 0 )
+    banana_g:addEventListener( "collision", banana_g ) 
+
+end 
+tm1 = timer.performWithDelay( 800, spawnBananas_g, 0 )
 
 -- Segunda função para criar objetos
-local function spawnBananas_b()
+ function spawnBananas_b()
     local banana_b = display.newImage( "images/banana_b.png" )
     banana_b.x = math.random( 1200 )
     physics.addBody( banana_b, { density = 2.0, friction = 0.5, bounce = 0.1} )
+    group:insert(banana_b);
    
 --Função para remover objeto quando colidir    
     local function banana_bRemove()
@@ -180,7 +184,6 @@ local function spawnBananas_b()
                 killPlayer()
          end
 
-         gameoverSound = audio.play( gameoverSong, { channel = 1, loops = 0 } )
          badSong = audio.play( wrongSong, { channel = 2, loops = 0 } )
 
        end
@@ -188,15 +191,15 @@ local function spawnBananas_b()
     banana_b.collision = onLocalCollision
     banana_b:addEventListener( "collision", banana_b )
 end    
-timer.performWithDelay( 300, spawnBananas_b, 0 )
+tm2 = timer.performWithDelay( 300, spawnBananas_b, 0 )
 
 function killPlayer()
-    numberOfLives = numberOfLives- 1;
+    numberOfLives = numberOfLives - 1;
      if(numberOfLives == 0) then
          physics.pause( )
-         audio.stop( 1 )
-         local gameover = display.newText( "GAME OVER", 120, 130, native.systemFontBold, 40)
-         gameover:setTextColor( 0, 0, 0 )
+         timer.cancel( tm1 )
+         timer.cancel( tm2 )
+         storyboard.gotoScene("go_tela");
       else
           spawnNewPlayer()
           playerIsInvincible = true
@@ -228,10 +231,12 @@ function createWalls( )
      --left wall
      local wall = display.newRect( -15, 160, wallThickenss, display.contentHeight )
      physics.addBody( wall, "static", { friction = 0, bounce = 1 } )
+     group:insert(wall);
 
      --right wall 
      wall = display.newRect( display.contentWidth+1 + wallThickenss, 160, wallThickenss, display.contentHeight ) 
      physics.addBody( wall, "static", { friction = 0, bounce = 1 } )
+     group:insert(wall);
 
 end
 
@@ -246,12 +251,12 @@ local touchFunction = function(e)
         if direction == "right" then
             monkey:setSequence("moveRight")
 
-            xAxis = 5
+            xAxis = 6
             yAxis = 0
         elseif direction == "left" then
             monkey:setSequence("moveLeft")
 
-            xAxis = -5
+            xAxis = -6
             yAxis = 0
         end
         
@@ -293,5 +298,28 @@ local update = function()
 end
 
 Runtime:addEventListener("enterFrame", update)
+end
+
+scene:addEventListener("createScene", scene);
+
+function scene:enterScene(event)
+    local group = self.view;
+
+    storyboard.removeScene("menu");
+    storyboard.removeScene("go_tela");
+
+    mainSong = audio.play( bgSound, { channel = 1, loops = -1 } )
+end
+
+scene:addEventListener("enterScene", scene);
+
+function scene:exitScene(event)
+    local group = self.view;
+
+    audio.stop(mainSong);
+
+end
+
+scene:addEventListener("exitScene", scene);
 
 return scene
