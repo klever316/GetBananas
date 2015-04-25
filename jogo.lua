@@ -199,6 +199,7 @@ function killPlayer()
          physics.pause( )
          timer.cancel( tm1 )
          timer.cancel( tm2 )
+         timer.cancel( teste )
          storyboard.gotoScene("go_tela");
       else
           spawnNewPlayer()
@@ -297,7 +298,7 @@ local update = function()
     end 
 end
 
-Runtime:addEventListener("enterFrame", update)
+teste = timer.performWithDelay( 20, update, 0 )
 end
 
 scene:addEventListener("createScene", scene);
@@ -317,7 +318,6 @@ function scene:exitScene(event)
     local group = self.view;
 
     audio.stop(mainSong);
-
 end
 
 scene:addEventListener("exitScene", scene);

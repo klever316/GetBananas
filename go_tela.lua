@@ -94,7 +94,7 @@ end
 function scene:enterScene( event )
     local group = self.view;
 
-    storyboard.removeScene("game");
+    storyboard.removeScene("jogo");
 
 	retry:addEventListener("tap",retryGame)
     menu:addEventListener("tap",backMenu)
