@@ -27,7 +27,7 @@ coinSound = audio.loadStream( "coin.mp3" )
 wrongSong = audio.loadStream( "wrong.mp3" )
 
 function scene:createScene(event)
-local group = self.view;
+local group = self.view
 
 --Adiciona física e gravidade
 local physics = require("physics")
@@ -301,7 +301,7 @@ end
 teste = timer.performWithDelay( 20, update, 0 )
 end
 
-scene:addEventListener("createScene", scene);
+scene:addEventListener("createScene", scene)
 
 function scene:enterScene(event)
     local group = self.view;
@@ -312,14 +312,14 @@ function scene:enterScene(event)
     mainSong = audio.play( bgSound, { channel = 1, loops = -1 } )
 end
 
-scene:addEventListener("enterScene", scene);
+scene:addEventListener("enterScene", scene)
 
 function scene:exitScene(event)
-    local group = self.view;
+    local group = self.view
 
-    audio.stop(mainSong);
+    audio.stop(mainSong)
 end
 
-scene:addEventListener("exitScene", scene);
+scene:addEventListener("exitScene", scene)
 
 return scene
