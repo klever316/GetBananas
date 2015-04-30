@@ -20,16 +20,18 @@ function scene:createScene( event )
 		group:insert(background)
 
         local logo = display.newImage( "images/go_logo.png" )
-        logo.x = -15
+        logo.x = -10
         logo.y = 35
         group:insert( logo )
 
-        local death = display.newImage( "images/deadmonkey.png" )
-        death.x = 110
-        death.y = 110
-        death.alpha = -1
-        transition.to(death, {alpha = 1, time=4000})
-        group:insert(death)
+        local face = display.newImage( "images/sadmonkey.png" )
+        face.x = 250
+        face.y = 140
+        face.xScale = 0.01
+        face.yScale = 0.01
+        group:insert(face)
+
+        --transition.scaleTo( face, { xScale=0.1, yScale=0.1, time=1000} )
 	
         retry= display.newImage( "images/retry.png" )
         retry.x = -100
@@ -67,8 +69,8 @@ function retryGame()
      display.remove(background)
      transition.cancel( background )
      display.remove( logo )
-     display.remove( death )
      display.remove( retry )
+     display.remove( face )
      display.remove( menu )
      display.remove( yourscore )
      display.remove(pontuacaoFinal);
@@ -82,8 +84,8 @@ function backMenu()
      display.remove(background)
      transition.cancel( background )
      display.remove( logo )
-     display.remove( death )
      display.remove( retry )
+     display.remove( face )
      display.remove( menu )
      display.remove( yourscore )
      display.remove(pontuacaoFinal);
