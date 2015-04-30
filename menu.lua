@@ -1,3 +1,4 @@
+LINHA 1 Menu
 --------------------------------------------MENU DO JOGO E SUAS CONFIGURAÇÕES--------------------------------------------
 
 -- Requisita o storyboard e adiciona a variável playbutton que irá redirecionar para a tela do jogo 
