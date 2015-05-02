@@ -68,17 +68,23 @@ local sequenceVidas = {
 -- Adiciona background, esquerda, direita, chão, macaco com física e chama física editada no physics editor
 local background = display.newImage( "images/bg_jogo.png" )
 background.y = display.contentHeight/13
+background.alpha = -1;
+transition.to(background, {alpha = 1, time=1000})
 group:insert(background);
 
 local floor = display.newImage( "images/floor.png" )
 floor.y = 258
+floor.alpha = -1;
+transition.to(floor, {alpha = 1, time=15000})
 physics.addBody( floor, "static", { friction=0.5, bounce=0 } )
-group:insert(floor);
+group:insert(floor)
 
 local monkey = display.newSprite(sheet, sequenceData )
 monkey.y = 210
 physics.addBody( monkey, "static", { radius = 0, friction= 0.5, bounce= 0 }, physicsData:get("sprites") )
 monkey.name = "macaco"
+monkey.alpha = -1;
+transition.to(monkey, {alpha = 1, time=1000})
 group:insert(monkey);
 
 monkey:setSequence("idleRight")
@@ -87,6 +93,8 @@ local Vidas = display.newSprite( folhaVidas, sequenceVidas )
 
 Vidas.x = 30
 Vidas.y = 266
+Vidas.alpha = -1;
+transition.to(Vidas, {alpha = 1, time=1000})
 Vidas:setSequence ( " vidas3 ")
 Vidas:play( )
 group:insert(Vidas);
@@ -96,6 +104,8 @@ local buttons = {}
 buttons[1] = display.newImage("images/left_button.png")
 buttons[1].x = 190
 buttons[1].y = 265
+buttons[1].alpha = -1;
+transition.to(buttons[1], {alpha = 1, time=1000})
 buttons[1].myName = "left"
 
 group:insert(buttons[1])
@@ -103,22 +113,26 @@ group:insert(buttons[1])
 buttons[2] = display.newImage("images/right_button.png")
 buttons[2].x = 240
 buttons[2].y = 265
+buttons[2].alpha = -1;
+transition.to(buttons[2], {alpha = 1, time=1000})
 buttons[2].myName = "right"
 
 group:insert(buttons[2])
 
 --Adiciona score texto e número
 local scoreNumber = display.newText(score, 400, 264, nil, 22)
-scoreNumber:setTextColor( 0, 0, 1 )
+scoreNumber: setTextColor( 240, 248, 0 )
 scoreNumber.xScale = 1.2
 scoreNumber.yScale = 1.2
-
+scoreNumber.alpha = -1;
+transition.to(scoreNumber, {alpha = 1, time=1000})
 group:insert(scoreNumber);
 
 local scoreText = display.newText("score:", 320, 265, nil, 22)
-scoreText:setTextColor( 0, 0, 1 )
+scoreText: setTextColor( 240, 248, 0 )
 scoreText.xScale = 1.2
-
+scoreText.alpha = -1;
+transition.to(scoreText, {alpha = 1, time=1000})
 group:insert(scoreText);
 
 -- Cria uma função para gerar varios objetos
@@ -142,7 +156,7 @@ group:insert(scoreText);
        if event.other == monkey then
             
             local score = display.newText('+10', event.other.x, event.other.y, 'Courier New Bold', 14)
-            score:setTextColor( 0, 0, 1 )
+            score: setTextColor( 240, 248, 0 )
             transition.to(score, {time = 500, xScale = 1.5, yScale = 1.5, y = score.y - 20, onComplete = function() display.remove(score) score = nil end })
 
             scoreNumber.text = tostring(tonumber(scoreNumber.text) + 10)
@@ -184,7 +198,7 @@ tm1 = timer.performWithDelay( 800, spawnBananas_g, 0 )
                 killPlayer()
          end
 
-         badSong = audio.play( wrongSong, { channel = 2, loops = 0 } )
+         badSong = audio.play( wrongSong, { channel = 3, loops = 0 } )
 
        end
     end

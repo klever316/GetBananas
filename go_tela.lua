@@ -20,42 +20,61 @@ function scene:createScene( event )
 		group:insert(background)
 
         local logo = display.newImage( "images/go_logo.png" )
-        logo.x = -10
-        logo.y = 35
+        logo.x = -13
+        logo.y = 30
+        logo.alpha = -1;
+        transition.to(logo, {alpha = 1, time=1000})
         group:insert( logo )
 
-        local face = display.newImage( "images/sadmonkey.png" )
-        face.x = 250
-        face.y = 140
-        face.xScale = 0.01
-        face.yScale = 0.01
+        face = display.newImage( "images/sadmonkey.png", 140, 90 )
+        face.xScale = 0.1
+        face.yScale = 0.1
         group:insert(face)
 
-        --transition.scaleTo( face, { xScale=0.1, yScale=0.1, time=1000} )
-	
+        fuzzym = display.newImage( "images/fuzzymonkey.png", 140, 90 )
+        fuzzym.xScale = 0.3
+        fuzzym.yScale = 0.3
+        fuzzym.alpha = -1;
+        group:insert(fuzzym)
+
+        function facem( face )
+            transition.scaleTo( face, { xScale=1.0, yScale=1.0, time=2490, onComplete=fuzzyf} )
+        end
+        facem( face )
+
+        function fuzzyf( face )
+            display.remove( face )
+            transition.to(fuzzym, {alpha = 1, time=5000})      
+        end
+        facem( face )
+
         retry= display.newImage( "images/retry.png" )
         retry.x = -100
         retry.y = 260
         retry.alpha = -1
-        transition.to(retry, {alpha = 1, time=4000})
+        transition.to(retry, {alpha = 1, time=7000})
 		group:insert(retry)
 
         menu= display.newImage( "images/menu.png" )
         menu.x = 280
-        menu.y = 255
+        menu.y = 259
         menu.alpha = -1
-        transition.to(menu, {alpha = 1, time=4000})
+        transition.to(menu, {alpha = 1, time=7000})
         group:insert(menu)
 
         yourscore= display.newImage( "images/yourscore.png" )
         yourscore.x = 250
         yourscore.y = 100
+        yourscore.alpha = -1;
+        transition.to(yourscore, {alpha = 1, time=1000})
         group:insert(yourscore)
 
 		scoreFinal = (scoreFinal)
 		
 		local pontuacaoFinal = display.newText(scoreFinal, 380, 134, native.systemFont, 20)
         pontuacaoFinal: setTextColor( 240, 248, 0 )
+        pontuacaoFinal.alpha = -1;
+        transition.to(pontuacaoFinal, {alpha = 1, time=1000})
                     
         group:insert(pontuacaoFinal)
 end
@@ -68,9 +87,17 @@ function retryGame()
      
      display.remove(background)
      transition.cancel( background )
+     transition.cancel( logo )
+     transition.cancel( face )
+     transition.cancel( fuzzym )
+     transition.cancel( retry )
+     transition.cancel( menu )
+     transition.cancel( yourscore )
+     transition.cancel( pontuacaoFinal )
      display.remove( logo )
      display.remove( retry )
      display.remove( face )
+     display.remove( fuzzym )
      display.remove( menu )
      display.remove( yourscore )
      display.remove(pontuacaoFinal);
@@ -83,10 +110,18 @@ function backMenu()
      
      display.remove(background)
      transition.cancel( background )
+     transition.cancel( logo )
+     transition.cancel( face )
+     transition.cancel( fuzzym )
+     transition.cancel( retry )
+     transition.cancel( menu )
+     transition.cancel( yourscore )
+     transition.cancel( pontuacaoFinal )
      display.remove( logo )
      display.remove( retry )
      display.remove( face )
      display.remove( menu )
+     display.remove( fuzzym )
      display.remove( yourscore )
      display.remove(pontuacaoFinal);
 
