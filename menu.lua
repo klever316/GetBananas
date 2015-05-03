@@ -6,6 +6,7 @@ local scene = storyboard.newScene()
 local playbutton
 local tutorialbutton
 local historiabutton
+local creditosbutton
 
 -- Carrega o arquivo de aúdio da tela do menu
 bgSound = audio.loadStream( "menu.mp3" )
@@ -44,24 +45,31 @@ function scene:createScene( event )
 	
         playbutton= display.newImage( "images/play.png" )
         playbutton.x = display.contentWidth/3 + 12
-        playbutton.y = display.contentHeight/2 - 10 
+        playbutton.y = display.contentHeight/2 - 30 
         playbutton.alpha = -1;
         transition.to(playbutton, {alpha = 1, time=5000})
 		group:insert(playbutton)
 
         tutorialbutton= display.newImage( "images/comojogar.png" )
         tutorialbutton.x = display.contentWidth/3 - 5
-        tutorialbutton.y = display.contentHeight/2 + 30 
+        tutorialbutton.y = display.contentHeight/2 + 10 
         tutorialbutton.alpha = -1;
         transition.to(tutorialbutton, {alpha = 1, time=5000})
         group:insert(tutorialbutton)
 
         historiabutton= display.newImage( "images/historialogo.png" )
         historiabutton.x = display.contentWidth/3 - 5
-        historiabutton.y = display.contentHeight/2 + 70 
+        historiabutton.y = display.contentHeight/2 + 50 
         historiabutton.alpha = -1;
         transition.to(historiabutton, {alpha = 1, time=5000})
         group:insert(historiabutton)
+
+        creditosbutton= display.newImage( "images/creditoslogo.png" )
+        creditosbutton.x = display.contentWidth/3 - 10
+        creditosbutton.y = display.contentHeight/2 + 90 
+        creditosbutton.alpha = -1;
+        transition.to(creditosbutton, {alpha = 1, time=5000})
+        group:insert(creditosbutton)
 end
 -- Comando responsável por ativar a função createscene
 scene:addEventListener( "createScene", scene )
@@ -72,6 +80,8 @@ function startGame()
 	 display.remove(background)
 	 display.remove(playbutton)
      display.remove(tutorialbutton)
+     display.remove(historiabutton)
+     display.remove(creditosbutton)
 	 display.remove(vine)
 	 display.remove(logo)
 	 transition.cancel( background )
@@ -85,6 +95,8 @@ function tutorial()
      display.remove(background)
      display.remove(playbutton)
      display.remove(tutorialbutton)
+     display.remove(historiabutton)
+     display.remove(creditosbutton)
      display.remove(vine)
      display.remove(logo)
      transition.cancel( background )
@@ -98,12 +110,29 @@ function historia()
      display.remove(background)
      display.remove(playbutton)
      display.remove(tutorialbutton)
+     display.remove(historiabutton)
+     display.remove(creditosbutton)
      display.remove(vine)
      display.remove(logo)
      transition.cancel( background )
      transition.cancel( logo )
      transition.cancel( playbutton )
      storyboard.gotoScene("historia")
+end
+
+function creditos()
+     audio.stop( )
+     display.remove(background)
+     display.remove(playbutton)
+     display.remove(tutorialbutton)
+     display.remove(historiabutton)
+     display.remove(creditosbutton)
+     display.remove(vine)
+     display.remove(logo)
+     transition.cancel( background )
+     transition.cancel( logo )
+     transition.cancel( playbutton )
+     storyboard.gotoScene("creditos")
 end
 
 -- Função enterScene do storyboard que irá executar o som de fundo do jogo e ativará o objeto playbutton
@@ -113,10 +142,12 @@ function scene:enterScene( event )
     storyboard.removeScene("go_tela")
     storyboard.removeScene("tutorial")
     storyboard.removeScene("historia")
+    storyboard.removeScene("creditos")
 
 	playbutton:addEventListener("tap",startGame)
     tutorialbutton:addEventListener("tap",tutorial)
     historiabutton:addEventListener("tap",historia)
+    creditosbutton:addEventListener("tap",creditos)
 end
 
 -- Comando responsável por ativar a função enterscene
@@ -127,6 +158,7 @@ function scene:exitScene( event )
 	playbutton:removeEventListener("tap",startGame)
     tutorialbutton:removeEventListener("tap",tutorial)
     historiabutton:removeEventListener("tap",historia)
+    creditosbutton:removeEventListener("tap",creditos)
 	audio.stop( )
 end
 
