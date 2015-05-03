@@ -11,6 +11,8 @@ local numberOfLives = 3
 
 local countVidas = 3
 
+local int controlePonto = 0
+
 local yAxis = 0
 
 local xAxis = 0
@@ -26,13 +28,15 @@ coinSound = audio.loadStream( "coin.mp3" )
 
 wrongSong = audio.loadStream( "wrong.mp3" )
 
+wizardSong = audio.loadStream( "wizardsound.mp3" )
+
 function scene:createScene(event)
 local group = self.view
 
 --Adiciona física e gravidade
 local physics = require("physics")
 physics.start()
-physics.setGravity( 0, 3 )
+physics.setGravity( 0, 1 )
 --physics.setDrawMode( "hybrid" )
 
 -- Cria a função criar paredes, regula a velocidade e uma variavel para atribuir os movimentos 
@@ -68,9 +72,69 @@ local sequenceVidas = {
 -- Adiciona background, esquerda, direita, chão, macaco com física e chama física editada no physics editor
 local background = display.newImage( "images/bg_jogo.png" )
 background.y = display.contentHeight/13
-background.alpha = -1;
+background.alpha = -1
 transition.to(background, {alpha = 1, time=1000})
-group:insert(background);
+group:insert(background)
+
+wizard = display.newImage( "images/wizard.png" )
+wizard.x = 180
+wizard.y = 55
+wizard.alpha = -1
+group:insert(wizard)
+
+wizard1 = display.newImage( "images/wizard.png" )
+wizard1.x = 180
+wizard1.y = 55
+wizard1.alpha = -1
+group:insert(wizard1)
+
+wizard2 = display.newImage( "images/wizard.png" )
+wizard2.x = 180
+wizard2.y = 55
+wizard2.alpha = -1
+group:insert(wizard2)
+
+wizard3 = display.newImage( "images/wizard.png" )
+wizard3.x = 180
+wizard3.y = 55
+wizard3.alpha = -1
+group:insert(wizard3)
+
+wizard4 = display.newImage( "images/wizard.png" )
+wizard4.x = 180
+wizard4.y = 55
+wizard4.alpha = -1
+group:insert(wizard4)
+
+wizard5 = display.newImage( "images/wizard.png" )
+wizard5.x = 180
+wizard5.y = 55
+wizard5.alpha = -1
+group:insert(wizard5)
+
+wizard6 = display.newImage( "images/wizard.png" )
+wizard6.x = 180
+wizard6.y = 55
+wizard6.alpha = -1
+group:insert(wizard6)
+
+wizard7 = display.newImage( "images/wizard.png" )
+wizard7.x = 180
+wizard7.y = 55
+wizard7.alpha = -1
+group:insert(wizard7)
+
+wizard8 = display.newImage( "images/wizard.png" )
+wizard8.x = 180
+wizard8.y = 55
+wizard8.alpha = -1
+group:insert(wizard8)
+
+wizard9 = display.newImage( "images/wizard.png" )
+wizard9.x = 180
+wizard9.y = 55
+wizard9.alpha = -1
+group:insert(wizard9)
 
 local floor = display.newImage( "images/floor.png" )
 floor.y = 258
@@ -120,7 +184,7 @@ buttons[2].myName = "right"
 group:insert(buttons[2])
 
 --Adiciona score texto e número
-local scoreNumber = display.newText(score, 400, 264, nil, 22)
+local scoreNumber = display.newText(score, 410, 262, nil, 22)
 scoreNumber: setTextColor( 240, 248, 0 )
 scoreNumber.xScale = 1.2
 scoreNumber.yScale = 1.2
@@ -128,7 +192,7 @@ scoreNumber.alpha = -1;
 transition.to(scoreNumber, {alpha = 1, time=1000})
 group:insert(scoreNumber);
 
-local scoreText = display.newText("score:", 320, 265, nil, 22)
+local scoreText = display.newText("pontos", 320, 265, nil, 22)
 scoreText: setTextColor( 240, 248, 0 )
 scoreText.xScale = 1.2
 scoreText.alpha = -1;
@@ -155,12 +219,95 @@ group:insert(scoreText);
 --Se colidir com o objeto incrementa score 
        if event.other == monkey then
             
-            local score = display.newText('+10', event.other.x, event.other.y, 'Courier New Bold', 14)
+            local score = display.newText('+1', event.other.x, event.other.y, 'Courier New Bold', 14)
             score: setTextColor( 240, 248, 0 )
             transition.to(score, {time = 500, xScale = 1.5, yScale = 1.5, y = score.y - 20, onComplete = function() display.remove(score) score = nil end })
+            
+            controlePonto = tonumber(scoreNumber.text)
 
-            scoreNumber.text = tostring(tonumber(scoreNumber.text) + 10)
-            scoreFinal = tonumber(scoreNumber.text);
+            scoreNumber.text = tostring(tonumber(scoreNumber.text) + 1)
+            scoreFinal = tonumber(scoreNumber.text)
+
+            if controlePonto == 9 then
+                mageSong = audio.play( wizardSong, { channel = 4, loops = 0 } )
+            end
+
+            if controlePonto == 19 then
+                mageSong = audio.play( wizardSong, { channel = 4, loops = 0 } )
+            end
+
+            if controlePonto == 29 then
+                mageSong = audio.play( wizardSong, { channel = 4, loops = 0 } )
+            end
+
+            if controlePonto == 39 then
+                mageSong = audio.play( wizardSong, { channel = 4, loops = 0 } )
+            end
+
+            if controlePonto == 49 then
+                mageSong = audio.play( wizardSong, { channel = 4, loops = 0 } )
+            end
+
+            if controlePonto == 59 then
+                mageSong = audio.play( wizardSong, { channel = 4, loops = 0 } )
+            end
+
+            if controlePonto == 69 then
+                mageSong = audio.play( wizardSong, { channel = 4, loops = 0 } )
+            end
+
+            if controlePonto == 79 then
+                mageSong = audio.play( wizardSong, { channel = 4, loops = 0 } )
+            end
+
+            if controlePonto == 89 then
+                mageSong = audio.play( wizardSong, { channel = 4, loops = 0 } )
+            end
+
+            if controlePonto == 99 then
+                mageSong = audio.play( wizardSong, { channel = 4, loops = 0 } )
+            end
+
+            if controlePonto >8 and controlePonto <18 then
+                transition.to(wizard, {alpha = 1, time=2500, onComplete = removewizard})
+                physics.setGravity( 0, 2 )
+            
+            elseif controlePonto >18 and controlePonto <28 then
+                transition.to(wizard1, {alpha = 1, time=2500, onComplete = removewizard1})
+                physics.setGravity( 0, 3 )
+
+            elseif controlePonto >28 and controlePonto <38 then
+                transition.to(wizard2, {alpha = 1, time=2500, onComplete = removewizard2})
+                physics.setGravity( 0, 4 )
+
+            elseif controlePonto >38 and controlePonto <48 then
+                transition.to(wizard3, {alpha = 1, time=2500, onComplete = removewizard3})
+                physics.setGravity( 0, 5 )    
+
+            elseif controlePonto >48 and controlePonto <58 then
+                transition.to(wizard4, {alpha = 1, time=2500, onComplete = removewizard4})
+                physics.setGravity( 0, 6 )
+
+            elseif controlePonto >58 and controlePonto <68 then
+                transition.to(wizard5, {alpha = 1, time=2500, onComplete = removewizard5})
+                physics.setGravity( 0, 7 )
+
+            elseif controlePonto >68 and controlePonto <78 then
+                transition.to(wizard6, {alpha = 1, time=2500, onComplete = removewizard6})
+                physics.setGravity( 0, 8 )
+
+            elseif controlePonto >78 and controlePonto <88 then
+                transition.to(wizard7, {alpha = 1, time=2500, onComplete = removewizard7})
+                physics.setGravity( 0, 9 )
+
+            elseif controlePonto >88 and controlePonto <98 then
+                transition.to(wizard8, {alpha = 1, time=2500, onComplete = removewizard8})
+                physics.setGravity( 0, 10 )
+
+            elseif controlePonto >98 then
+                transition.to(wizard9, {alpha = 1, time=2500, onComplete = removewizard9})
+                physics.setGravity( 0, 11 )            
+            end
 
             scoreSong = audio.play( coinSound, { channel = 2, loops = 0 } )
         end
@@ -171,6 +318,46 @@ group:insert(scoreText);
 
 end 
 tm1 = timer.performWithDelay( 800, spawnBananas_g, 0 )
+
+function removewizard( )
+    display.remove( wizard )
+end
+
+function removewizard1( )
+    display.remove( wizard1 )
+end
+
+function removewizard2( )
+    display.remove( wizard2 )
+end
+
+function removewizard3( )
+    display.remove( wizard3 )
+end
+
+function removewizard4( )
+    display.remove( wizard4 )
+end
+
+function removewizard5( )
+    display.remove( wizard5 )
+end
+
+function removewizard6( )
+    display.remove( wizard6 )
+end
+
+function removewizard7( )
+    display.remove( wizard7 )
+end
+
+function removewizard8( )
+    display.remove( wizard8 )
+end
+
+function removewizard9( )
+    display.remove( wizard9 )
+end
 
 -- Segunda função para criar objetos
  function spawnBananas_b()
@@ -320,8 +507,11 @@ scene:addEventListener("createScene", scene)
 function scene:enterScene(event)
     local group = self.view;
 
-    storyboard.removeScene("menu");
-    storyboard.removeScene("go_tela");
+    storyboard.removeScene("menu")
+    storyboard.removeScene("tutorial")
+    storyboard.removeScene("historia")
+    storyboard.removeScene("go_tela")
+
 
     mainSong = audio.play( bgSound, { channel = 1, loops = -1 } )
 end

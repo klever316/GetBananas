@@ -4,6 +4,8 @@
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 local playbutton
+local tutorialbutton
+local historiabutton
 
 -- Carrega o arquivo de aúdio da tela do menu
 bgSound = audio.loadStream( "menu.mp3" )
@@ -41,11 +43,25 @@ function scene:createScene( event )
         move_vine( vine )
 	
         playbutton= display.newImage( "images/play.png" )
-        playbutton.x = display.contentWidth/3 - 78
-        playbutton.y = display.contentHeight/2 - 40 
+        playbutton.x = display.contentWidth/3 + 12
+        playbutton.y = display.contentHeight/2 - 10 
         playbutton.alpha = -1;
         transition.to(playbutton, {alpha = 1, time=5000})
 		group:insert(playbutton)
+
+        tutorialbutton= display.newImage( "images/comojogar.png" )
+        tutorialbutton.x = display.contentWidth/3 - 5
+        tutorialbutton.y = display.contentHeight/2 + 30 
+        tutorialbutton.alpha = -1;
+        transition.to(tutorialbutton, {alpha = 1, time=5000})
+        group:insert(tutorialbutton)
+
+        historiabutton= display.newImage( "images/historialogo.png" )
+        historiabutton.x = display.contentWidth/3 - 5
+        historiabutton.y = display.contentHeight/2 + 70 
+        historiabutton.alpha = -1;
+        transition.to(historiabutton, {alpha = 1, time=5000})
+        group:insert(historiabutton)
 end
 -- Comando responsável por ativar a função createscene
 scene:addEventListener( "createScene", scene )
@@ -55,6 +71,7 @@ function startGame()
 	 audio.stop( )
 	 display.remove(background)
 	 display.remove(playbutton)
+     display.remove(tutorialbutton)
 	 display.remove(vine)
 	 display.remove(logo)
 	 transition.cancel( background )
@@ -63,13 +80,43 @@ function startGame()
 	 storyboard.gotoScene("jogo")
 end
 
+function tutorial()
+     audio.stop( )
+     display.remove(background)
+     display.remove(playbutton)
+     display.remove(tutorialbutton)
+     display.remove(vine)
+     display.remove(logo)
+     transition.cancel( background )
+     transition.cancel( logo )
+     transition.cancel( playbutton )
+     storyboard.gotoScene("tutorial")
+end
+
+function historia()
+     audio.stop( )
+     display.remove(background)
+     display.remove(playbutton)
+     display.remove(tutorialbutton)
+     display.remove(vine)
+     display.remove(logo)
+     transition.cancel( background )
+     transition.cancel( logo )
+     transition.cancel( playbutton )
+     storyboard.gotoScene("historia")
+end
+
 -- Função enterScene do storyboard que irá executar o som de fundo do jogo e ativará o objeto playbutton
 function scene:enterScene( event )
 	mySong = audio.play( bgSound, { channel = 1, loops = -1 } )
     
     storyboard.removeScene("go_tela")
+    storyboard.removeScene("tutorial")
+    storyboard.removeScene("historia")
 
 	playbutton:addEventListener("tap",startGame)
+    tutorialbutton:addEventListener("tap",tutorial)
+    historiabutton:addEventListener("tap",historia)
 end
 
 -- Comando responsável por ativar a função enterscene
@@ -78,6 +125,8 @@ scene:addEventListener( "enterScene", scene )
 -- Função exitscene do storyboard onde removerá o objeto playbutton e parar o audio
 function scene:exitScene( event )
 	playbutton:removeEventListener("tap",startGame)
+    tutorialbutton:removeEventListener("tap",tutorial)
+    historiabutton:removeEventListener("tap",historia)
 	audio.stop( )
 end
 
