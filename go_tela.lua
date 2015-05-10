@@ -31,25 +31,13 @@ function scene:createScene( event )
         face.yScale = 0.1
         group:insert(face)
 
-        fuzzym = display.newImage( "images/fuzzymonkey.png", 140, 90 )
-        fuzzym.xScale = 0.3
-        fuzzym.yScale = 0.3
-        fuzzym.alpha = -1;
-        group:insert(fuzzym)
-
         function facem( face )
-            transition.scaleTo( face, { xScale=1.0, yScale=1.0, time=2490, onComplete=fuzzyf} )
-        end
-        facem( face )
-
-        function fuzzyf( face )
-            display.remove( face )
-            transition.to(fuzzym, {alpha = 1, time=5000})      
+            transition.scaleTo( face, { xScale=1.0, yScale=1.0, time=2490} )
         end
         facem( face )
 
         retry= display.newImage( "images/retry.png" )
-        retry.x = -100
+        retry.x = -75
         retry.y = 260
         retry.alpha = -1
         transition.to(retry, {alpha = 1, time=7000})
@@ -71,7 +59,7 @@ function scene:createScene( event )
 
 		scoreFinal = (scoreFinal)
 		
-		local pontuacaoFinal = display.newText(scoreFinal, 380, 134, native.systemFont, 20)
+		local pontuacaoFinal = display.newText(scoreFinal, 385, 127, 'MV Boli', 20)
         pontuacaoFinal: setTextColor( 240, 248, 0 )
         pontuacaoFinal.alpha = -1;
         transition.to(pontuacaoFinal, {alpha = 1, time=1000})
@@ -89,7 +77,6 @@ function retryGame()
      transition.cancel( background )
      transition.cancel( logo )
      transition.cancel( face )
-     transition.cancel( fuzzym )
      transition.cancel( retry )
      transition.cancel( menu )
      transition.cancel( yourscore )
@@ -97,7 +84,6 @@ function retryGame()
      display.remove( logo )
      display.remove( retry )
      display.remove( face )
-     display.remove( fuzzym )
      display.remove( menu )
      display.remove( yourscore )
      display.remove(pontuacaoFinal);
@@ -112,7 +98,6 @@ function backMenu()
      transition.cancel( background )
      transition.cancel( logo )
      transition.cancel( face )
-     transition.cancel( fuzzym )
      transition.cancel( retry )
      transition.cancel( menu )
      transition.cancel( yourscore )
@@ -121,7 +106,6 @@ function backMenu()
      display.remove( retry )
      display.remove( face )
      display.remove( menu )
-     display.remove( fuzzym )
      display.remove( yourscore )
      display.remove(pontuacaoFinal);
 

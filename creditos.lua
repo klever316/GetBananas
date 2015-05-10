@@ -20,6 +20,14 @@ group:insert(back)
 back.alpha = -1;
 transition.to(back, {alpha = 1, time=2000})
 
+logo = display.newImage( "images/developed.png" )
+logo.x = 260
+logo.y = 270
+logo.alpha = -1
+group:insert(logo)
+
+transition.to(logo, {alpha = 1, time=5000, onComplete=logo1})
+
 end
 
 scene:addEventListener( "createScene", scene )
@@ -29,6 +37,7 @@ function stop()
      audio.stop( )
 	 display.remove(bg)
 	 display.remove(back)
+	 display.remove(logo)
 	 storyboard.gotoScene("menu")
 
 end

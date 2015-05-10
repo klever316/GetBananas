@@ -165,26 +165,26 @@ group:insert(Vidas);
 
 local buttons = {}
 
-buttons[1] = display.newImage("images/left_button.png")
-buttons[1].x = 190
-buttons[1].y = 265
-buttons[1].alpha = -1;
-transition.to(buttons[1], {alpha = 1, time=1000})
+buttons[1] = display.newImageRect("images/left_button.png",250,295)
+buttons[1].x = -30
+--buttons[1].y = 265
+buttons[1].alpha = 0.01;
+--transition.to(buttons[1], {alpha = 1, time=1000})
 buttons[1].myName = "left"
 
 group:insert(buttons[1])
 
-buttons[2] = display.newImage("images/right_button.png")
-buttons[2].x = 240
-buttons[2].y = 265
-buttons[2].alpha = -1;
-transition.to(buttons[2], {alpha = 1, time=1000})
+buttons[2] = display.newImageRect("images/right_button.png",250,295)
+buttons[2].x = 250
+--buttons[2].y = 265
+buttons[2].alpha = 0.01;
+--transition.to(buttons[2], {alpha = 1, time=1000})
 buttons[2].myName = "right"
 
 group:insert(buttons[2])
 
 --Adiciona score texto e número
-local scoreNumber = display.newText(score, 410, 262, nil, 22)
+local scoreNumber = display.newText(score, 415, 261, 'MV Boli', 22)
 scoreNumber: setTextColor( 240, 248, 0 )
 scoreNumber.xScale = 1.2
 scoreNumber.yScale = 1.2
@@ -192,7 +192,7 @@ scoreNumber.alpha = -1;
 transition.to(scoreNumber, {alpha = 1, time=1000})
 group:insert(scoreNumber);
 
-local scoreText = display.newText("pontos", 320, 265, nil, 22)
+local scoreText = display.newText("Pontos", 320, 264, 'MV Boli', 22)
 scoreText: setTextColor( 240, 248, 0 )
 scoreText.xScale = 1.2
 scoreText.alpha = -1;
@@ -219,7 +219,7 @@ group:insert(scoreText);
 --Se colidir com o objeto incrementa score 
        if event.other == monkey then
             
-            local score = display.newText('+1', event.other.x, event.other.y, 'Courier New Bold', 14)
+            local score = display.newText('+1', event.other.x, event.other.y, --[['Courier New Bold']]'MV Boli', 14)
             score: setTextColor( 240, 248, 0 )
             transition.to(score, {time = 500, xScale = 1.5, yScale = 1.5, y = score.y - 20, onComplete = function() display.remove(score) score = nil end })
             
