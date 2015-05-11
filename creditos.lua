@@ -6,6 +6,8 @@ local group = self.view
 
 bgSound = audio.loadStream( "creditos.mp3" )
 
+toqueSound = audio.loadSound( "click.mp3" )
+
 local bg = display.newImage('images/creditos.png')
 bg.x = 0
 bg.y = display.contentHeight/13
@@ -34,7 +36,8 @@ scene:addEventListener( "createScene", scene )
 
 function stop()
      
-     audio.stop( )
+     audio.stop( bgSound )
+     audio.play( toqueSound )
 	 display.remove(bg)
 	 display.remove(back)
 	 display.remove(logo)
@@ -62,7 +65,7 @@ scene:addEventListener( "enterScene", scene )
 function scene:exitScene( event )
 
 	back:removeEventListener("tap",stop)
-    audio.stop( )
+    audio.stop( 1 )
 
 end
 

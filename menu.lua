@@ -11,6 +11,8 @@ local creditosbutton
 -- Carrega o arquivo de aúdio da tela do menu
 bgSound = audio.loadStream( "menu.mp3" )
 
+toqueSound = audio.loadSound( "click.mp3" )
+
 _W = display.contentWidth 
 _H = display.contentHeight
 
@@ -76,7 +78,8 @@ scene:addEventListener( "createScene", scene )
 
 -- Função que redirecionará para a tela do jogo 
 function startGame()
-	 audio.stop( )
+	 audio.stop( bgSound )
+     audio.play( toqueSound )
 	 display.remove(background)
 	 display.remove(playbutton)
      display.remove(tutorialbutton)
@@ -91,7 +94,8 @@ function startGame()
 end
 
 function tutorial()
-     audio.stop( )
+     audio.stop( bgSound )
+     audio.play( toqueSound )
      display.remove(background)
      display.remove(playbutton)
      display.remove(tutorialbutton)
@@ -106,7 +110,8 @@ function tutorial()
 end
 
 function historia()
-     audio.stop( )
+     audio.stop( bgSound )
+     audio.play( toqueSound )
      display.remove(background)
      display.remove(playbutton)
      display.remove(tutorialbutton)
@@ -121,7 +126,8 @@ function historia()
 end
 
 function creditos()
-     audio.stop( )
+     audio.stop( bgSound )
+     audio.play( toqueSound )
      display.remove(background)
      display.remove(playbutton)
      display.remove(tutorialbutton)
@@ -159,7 +165,7 @@ function scene:exitScene( event )
     tutorialbutton:removeEventListener("tap",tutorial)
     historiabutton:removeEventListener("tap",historia)
     creditosbutton:removeEventListener("tap",creditos)
-	audio.stop( )
+	audio.stop( 1 )
 end
 
 -- Comando responsável por ativar a função exitscene

@@ -6,6 +6,8 @@ local group = self.view
 
 bgSound = audio.loadStream( "historia.mp3" )
 
+toqueSound = audio.loadSound( "click.mp3" )
+
 local bg = display.newImage('images/historia.png')
 bg.x = 0
 bg.y = display.contentHeight/13
@@ -26,7 +28,8 @@ scene:addEventListener( "createScene", scene )
 
 function stop()
      
-     audio.stop( )
+     audio.stop( bgSound )
+     audio.play( toqueSound )
 	 display.remove(bg)
 	 display.remove(back)
 	 storyboard.gotoScene("menu")
@@ -52,7 +55,7 @@ scene:addEventListener( "enterScene", scene )
 function scene:exitScene( event )
 
 	back:removeEventListener("tap",stop)
-    audio.stop( )
+    audio.stop( 1 )
 
 end
 

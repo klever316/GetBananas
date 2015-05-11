@@ -1,6 +1,8 @@
 -- Adiciona música em loop
 bgSound = audio.loadStream( "game over.mp3" )
 
+toqueSound = audio.loadSound( "click.mp3" )
+
 mySong = audio.play( bgSound, { channel = 1, loops = 0 } )
 
 -- Requisita o storyboard, inclui o arquivo play as telas do jogo e insere um botão para redirecionar para a tela do jogo
@@ -72,7 +74,7 @@ scene:addEventListener( "createScene", scene )
 -- Adicionar as funções de iniciar,entrada e saída das cenas
 function retryGame()
      scoreFinal = 0
-     
+     audio.play( toqueSound )
      display.remove(background)
      transition.cancel( background )
      transition.cancel( logo )
@@ -93,7 +95,7 @@ end
 
 function backMenu()
      scoreFinal = 0
-     
+     audio.play( toqueSound )
      display.remove(background)
      transition.cancel( background )
      transition.cancel( logo )
