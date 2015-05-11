@@ -16,7 +16,7 @@ group:insert(bg)
 bg.alpha = -1;
 transition.to(bg, {alpha = 1, time=2000})
 
-back = display.newImage('images/menu.png', 80, 265)
+back = display.newImage('images/menu.png', 80, 270)
 group:insert(back)
 
 back.alpha = -1;
@@ -24,7 +24,7 @@ transition.to(back, {alpha = 1, time=2000})
 
 logo = display.newImage( "images/developed.png" )
 logo.x = 260
-logo.y = 270
+logo.y = 274
 logo.alpha = -1
 group:insert(logo)
 

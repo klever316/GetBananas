@@ -74,6 +74,7 @@ scene:addEventListener( "createScene", scene )
 -- Adicionar as funções de iniciar,entrada e saída das cenas
 function retryGame()
      scoreFinal = 0
+     audio.stop( bgSound )
      audio.play( toqueSound )
      display.remove(background)
      transition.cancel( background )
@@ -95,6 +96,7 @@ end
 
 function backMenu()
      scoreFinal = 0
+     audio.stop( bgSound )
      audio.play( toqueSound )
      display.remove(background)
      transition.cancel( background )
