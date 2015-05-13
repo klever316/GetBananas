@@ -76,6 +76,24 @@ background.alpha = -1
 transition.to(background, {alpha = 1, time=1000})
 group:insert(background)
 
+button_left = display.newImage( "images/displayleft.png" )
+button_left.x = 5
+button_left.y = 110
+button_left.alpha = -1
+button_left.xScale = 0.3
+button_left.yScale = 0.3
+transition.to(button_left, {alpha = 0.8, time=1000})
+group:insert(button_left)
+
+button_right = display.newImage( "images/displayright.png" )
+button_right.x = 430
+button_right.y = 110
+button_right.alpha = -1
+button_right.xScale = 0.3
+button_right.yScale = 0.3
+transition.to(button_right, {alpha = 0.8, time=1000})
+group:insert(button_right)
+
 wizard = display.newImage( "images/wizard.png" )
 wizard.x = 180
 wizard.y = 55

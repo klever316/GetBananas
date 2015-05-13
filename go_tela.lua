@@ -61,7 +61,7 @@ function scene:createScene( event )
 
 		scoreFinal = (scoreFinal)
 		
-		local pontuacaoFinal = display.newText(scoreFinal, 385, 127, 'MV Boli', 20)
+		local pontuacaoFinal = display.newText(scoreFinal, 381, 127, 'MV Boli', 28)
         pontuacaoFinal: setTextColor( 240, 248, 0 )
         pontuacaoFinal.alpha = -1;
         transition.to(pontuacaoFinal, {alpha = 1, time=1000})
@@ -75,7 +75,7 @@ scene:addEventListener( "createScene", scene )
 function retryGame()
      scoreFinal = 0
      audio.stop( bgSound )
-     audio.play( toqueSound )
+     audio.play( toqueSound, {channel = 2, loops = 0} )
      display.remove(background)
      transition.cancel( background )
      transition.cancel( logo )
@@ -97,7 +97,7 @@ end
 function backMenu()
      scoreFinal = 0
      audio.stop( bgSound )
-     audio.play( toqueSound )
+     audio.play( toqueSound, {channel = 2, loops = 0} )
      display.remove(background)
      transition.cancel( background )
      transition.cancel( logo )
