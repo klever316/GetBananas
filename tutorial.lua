@@ -32,7 +32,7 @@ function stop()
      audio.play( toqueSound )
 	 display.remove(bg)
 	 display.remove(back)
-	 storyboard.gotoScene("menu")
+	 storyboard.gotoScene("menu", {effect = "slideLeft"})
 
 end
 

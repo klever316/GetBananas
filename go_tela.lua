@@ -91,7 +91,7 @@ function retryGame()
      display.remove( yourscore )
      display.remove(pontuacaoFinal);
 
-	 storyboard.gotoScene("jogo")
+	 storyboard.gotoScene("jogo", {effect = "slideDown"})
 end
 
 function backMenu()
@@ -113,7 +113,7 @@ function backMenu()
      display.remove( yourscore )
      display.remove(pontuacaoFinal);
 
-     storyboard.gotoScene("menu")
+     storyboard.gotoScene("menu", {effect = "slideRight"})
 end
 
 function scene:enterScene( event )

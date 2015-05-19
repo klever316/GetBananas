@@ -41,7 +41,7 @@ function stop()
 	 display.remove(bg)
 	 display.remove(back)
 	 display.remove(logo)
-	 storyboard.gotoScene("menu")
+	 storyboard.gotoScene("menu", {effect = "slideDown"})
 
 end
 

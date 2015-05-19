@@ -237,7 +237,7 @@ group:insert(scoreText);
 --Se colidir com o objeto incrementa score 
        if event.other == monkey then
             
-            local score = display.newText('+1', event.other.x, event.other.y, --[['Courier New Bold']]'MV Boli', 14)
+            local score = display.newText('+1', event.other.x, event.other.y,'MV Boli', 14)
             score: setTextColor( 240, 248, 0 )
             transition.to(score, {time = 500, xScale = 1.5, yScale = 1.5, y = score.y - 20, onComplete = function() display.remove(score) score = nil end })
             
@@ -419,7 +419,7 @@ function killPlayer()
          timer.cancel( tm1 )
          timer.cancel( tm2 )
          timer.cancel( teste )
-         storyboard.gotoScene("go_tela");
+         storyboard.gotoScene("go_tela", {effect = "slideUp"});
       else
           spawnNewPlayer()
           playerIsInvincible = true

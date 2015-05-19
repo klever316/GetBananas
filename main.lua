@@ -9,4 +9,4 @@ display.setDefault( "anchorY", 0)
 
 -- Requisita o storyboard e vai para a tela do menu
 local storyboard = require "storyboard"
-storyboard.gotoScene( "menu" )
+storyboard.gotoScene( "menu", "crossFade", 1000 )

@@ -22,8 +22,8 @@ function scene:createScene( event )
         
         local background = display.newImage( "images/bg.png" )
         background.y = display.contentHeight/13
-        background.alpha = -1;
-        transition.to(background, {alpha = 1, time=1000})
+        background.alpha = 1;
+        --transition.to(background, {alpha = 1, time=1000})
 		group:insert(background)
 
 		local logo = display.newImage( "images/menu_logo.png" )
@@ -48,29 +48,29 @@ function scene:createScene( event )
         playbutton= display.newImage( "images/play.png" )
         playbutton.x = display.contentWidth/3 + 12
         playbutton.y = display.contentHeight/2 - 30 
-        playbutton.alpha = -1;
-        transition.to(playbutton, {alpha = 1, time=5000})
+        playbutton.alpha = 1;
+        --transition.to(playbutton, {alpha = 1, time=5000})
 		group:insert(playbutton)
 
         tutorialbutton= display.newImage( "images/comojogar.png" )
         tutorialbutton.x = display.contentWidth/3 - 5
         tutorialbutton.y = display.contentHeight/2 + 10 
-        tutorialbutton.alpha = -1;
-        transition.to(tutorialbutton, {alpha = 1, time=5000})
+        tutorialbutton.alpha = 1;
+        --transition.to(tutorialbutton, {alpha = 1, time=5000})
         group:insert(tutorialbutton)
 
         historiabutton= display.newImage( "images/historialogo.png" )
         historiabutton.x = display.contentWidth/3 - 5
         historiabutton.y = display.contentHeight/2 + 50 
-        historiabutton.alpha = -1;
-        transition.to(historiabutton, {alpha = 1, time=5000})
+        historiabutton.alpha = 1;
+        --transition.to(historiabutton, {alpha = 1, time=5000})
         group:insert(historiabutton)
 
         creditosbutton= display.newImage( "images/creditoslogo.png" )
         creditosbutton.x = display.contentWidth/3 - 10
         creditosbutton.y = display.contentHeight/2 + 90 
-        creditosbutton.alpha = -1;
-        transition.to(creditosbutton, {alpha = 1, time=5000})
+        creditosbutton.alpha = 1;
+        --transition.to(creditosbutton, {alpha = 1, time=5000})
         group:insert(creditosbutton)
 end
 -- Comando responsável por ativar a função createscene
@@ -90,7 +90,7 @@ function startGame()
 	 transition.cancel( background )
 	 transition.cancel( logo )
 	 transition.cancel( playbutton )
-	 storyboard.gotoScene("jogo")
+	 storyboard.gotoScene("jogo", "crossFade", 1000) 
 end
 
 function tutorial()
@@ -106,7 +106,7 @@ function tutorial()
      transition.cancel( background )
      transition.cancel( logo )
      transition.cancel( playbutton )
-     storyboard.gotoScene("tutorial")
+     storyboard.gotoScene("tutorial", {effect = "slideRight"} )
 end
 
 function historia()
@@ -122,7 +122,7 @@ function historia()
      transition.cancel( background )
      transition.cancel( logo )
      transition.cancel( playbutton )
-     storyboard.gotoScene("historia")
+     storyboard.gotoScene("historia", {effect = "slideLeft"})
 end
 
 function creditos()
@@ -138,7 +138,7 @@ function creditos()
      transition.cancel( background )
      transition.cancel( logo )
      transition.cancel( playbutton )
-     storyboard.gotoScene("creditos")
+     storyboard.gotoScene("creditos", {effect = "slideUp"})
 end
 
 -- Função enterScene do storyboard que irá executar o som de fundo do jogo e ativará o objeto playbutton
