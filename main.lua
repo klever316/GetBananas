@@ -1,7 +1,5 @@
 --------------------------------------------MAIN QUE IRÁ REDIRECIONAR PARA O STORYBOARD MENU--------------------------------------------
 
---------------------------------------------LINHA DO JOGO = MAIN -> MENU -> JOGO -> GAME OVER-------------------------------------------
-
 -- Esconde a barra de status e define as posições X e Y das telas do jogo
 display.setStatusBar(display.HiddenStatusBar)
 display.setDefault( "anchorX", 0)

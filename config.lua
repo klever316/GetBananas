@@ -1,6 +1,8 @@
+----------------------------------------Configurações da Tela-------------------------------------
+
+-- Configurações largura, altura e tamanho da tela do jogo
 application =
 {
-
 	content =
 	{
 		width = 320,

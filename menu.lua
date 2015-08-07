@@ -1,6 +1,6 @@
 --------------------------------------------MENU DO JOGO E SUAS CONFIGURAÇÕES--------------------------------------------
 
--- Requisita o storyboard e adiciona a variável playbutton que irá redirecionar para a tela do jogo 
+-- Requisita o storyboard, cria uma nova scene e adiciona as variáveis button 
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 local playbutton
@@ -13,6 +13,7 @@ bgSound = audio.loadStream( "menu.mp3" )
 
 toqueSound = audio.loadSound( "click.mp3" )
 
+-- Atribui a largura e a altura da tela nas varáveis _W e _H
 _W = display.contentWidth 
 _H = display.contentHeight
 
